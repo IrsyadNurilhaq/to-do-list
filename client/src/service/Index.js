@@ -1,78 +1,27 @@
-import axios from 'axios';
+import Post from "./MethodApi/Post";
+import Get from "./MethodApi/Get";
+import Edit from "./MethodApi/Edit";
+import Delete from "./MethodApi/Delete";
 
-const RootPath = 'http://localhost:5000/v1';
+//Post
+const postLogin = (data) => Post('user/login',data,false);
+const postData = (data) => Post('list',data,true)
 
-const getDataApi = (path) => {
-    const promise = new Promise((resolve, reject) =>{
-        axios.get(`${RootPath}/${path}`)
-        .then((result) => {
-            resolve(result);
-        }, (err) => {
-            reject(err);
-        });           
-    })
-    return promise;
-}
+//Get
+const getList = () => Get('list');
 
-const postWithToken = (path) => {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-    }
-    const promise = new Promise((resolve, reject) => {
-        axios.get(`${RootPath}/${path}`, config)
-        .then((result) => {
-            resolve(result);
-        }, (err) => {
-            resolve(err.response);
-        });        
-    })
-    return promise;
-}
+//Edit
+const editList = (id,data) => Edit('list',id,data)
 
-const postDataApi = (path, data) => {
-    const promise = new Promise((resolve, reject) =>{
-        axios.post(`${RootPath}/${path}`, data)
-        .then((result) => {
-            resolve(result);
-        }, (err) => {
-            resolve(err.response.data);
-        });           
-    })
-    return promise;
-}
-
-const deleteDataApi = (path, id) => {
-    const promise = new Promise((resolve, reject) =>{
-        axios.delete(`${RootPath}/${path}/${id}`)
-        .then((result) => {
-              resolve(result);
-        }, (err) => {
-            reject(err);
-        });           
-    })
-    return promise;
-}
-
-const editDataApi = (path, id, data) => {
-    const promise = new Promise((resolve, reject) =>{
-        axios.put(`${RootPath}/${path}/${id}`, data)
-        .then((result) => {
-              resolve(result);
-        }, (err) => {
-            reject(err);
-        });           
-    })
-    return promise;
-}
+//Delete
+const deleteList = (id) => Delete('list',id);
 
 const API ={
-    getDataApi,
-    postDataApi,
-    deleteDataApi,
-    editDataApi,
-    postWithToken,
+    postLogin,
+    postData,
+    getList,
+    editList,
+    deleteList
 }
 
 export default API;

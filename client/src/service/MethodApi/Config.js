@@ -1,0 +1,1 @@
+export const RootPath = 'http://localhost:8081/v1';

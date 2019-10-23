@@ -7,7 +7,9 @@ const user_controller = require('../controllers/User.Controller');
 
 const Auth = require('../middleware/Auth');
 
-
+router.get('/',function(req,res){
+    res.send("API to-do-list");
+})
 router.post('/user', user_controller.Create);
 router.post('/user/login', user_controller.Login);
 

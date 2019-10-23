@@ -1,7 +1,9 @@
 import React from 'react';
 import Register from './pages/Register/Register';
 import Login from './pages/Login/Login';
-import Dashboard from './pages/Dashboard/Dasboard'
+import Dashboard from './pages/Dashboard/Dasboard';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Authenticated} from './service/Auth/Auth';
 import { 
     BrowserRouter as Router, 
     Route,Switch
@@ -12,7 +14,7 @@ const MainRouter = () => (
         <Switch>
             <Route exact path="/" component={Login}/>
             <Route exact path="/login" component={Login}/>
-            <Route exact path="/dashboard" component={Dashboard}/>
+            <Authenticated exact path="/dashboard" component={Dashboard}/>
             <Route exact path="/register" component={Register}/>
         </Switch>
 

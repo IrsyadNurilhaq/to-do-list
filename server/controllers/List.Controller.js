@@ -5,8 +5,9 @@ const Response = require('../response/Baseresponse');
 
 exports.Get = async function (req,res){
     const userId = await Helper.GetIdUser(req,res);
-    const user = await User.findById(userId).populate('lists');
-    res.status(200).json(Response.CollectionData(user.lists)); 
+    const user = await User.find({_id : userId},'idList').populate('lists','_id content is_done').exec(function(err, user) {    
+        res.status(200).json(Response.CollectionData(user)); 
+      });
 };
 
 exports.Create = async function(req,res){
@@ -23,6 +24,7 @@ exports.Create = async function(req,res){
     });
 
     user.lists.push(newList);
+    user.idList.push(newList._id)
     await user.save(function (err) {
         if (err) {
             res.json(err.errors);

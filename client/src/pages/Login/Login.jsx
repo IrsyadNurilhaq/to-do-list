@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom'
 import '../../style/main.css';
 import '../../style/util.css';
 import Service from "../../service/Index";
+import {connect} from 'react-redux';
+import ActionType from '../../redux/GlobalActionType';
 
 
 class Login extends Component{
@@ -18,13 +20,13 @@ class Login extends Component{
             "email"   : e.target.email.value,
             "password": e.target.password.value
         }
-        Service.postDataApi('user/login',data).then((res) => {
-            if(res.data){
-                if(res.data.status === 200) {
-                    localStorage.setItem('token', res.data.token)
-                    this.props.history.push('/dashboard')
-                }
-            } else this.setState({validate: "Wrong email / password"})
+        Service.postLogin(data).then((res) => {
+            if(res.data.status === 200) {
+                localStorage.setItem('token', res.data.token)
+                this.props.handleLogin();
+                this.props.history.push('/dashboard')
+            }
+            else this.setState({validate: "Wrong email / password"})
         })
     }
     render(){
@@ -36,8 +38,6 @@ class Login extends Component{
                             <span className="login100-form-title p-b-43">
                                 Login to list your activity
                             </span>
-                            
-                            
                             <div className="wrap-input100 validate-input">
                                 <input className="input100" type="text" name="email" placeholder={"Email"} />
                                 <span className="focus-input100"></span>
@@ -77,4 +77,15 @@ class Login extends Component{
     }
 }
 
-export default Login;
+const mapStateToProps = (state) => {
+    return {
+        login: state.is_login
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        handleLogin: () => dispatch({type : ActionType.SET_LOGIN}),
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

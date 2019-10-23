@@ -1,18 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import rootReducer from './redux/GlobalReducer';
 
-let state = {};
-window.setState = (changes) => {
-    state = Object.assign({}, changes);
-    ReactDOM.render(<App {...state} />, document.getElementById('root'));
-};
+const storeRedux = createStore(rootReducer)
 
-let initialState = {
-    location: window.location.pathname.replace(/^\/?|\/$/g,""),
-};
+ReactDOM.render(
+    <Provider store={storeRedux}>
+        <App/>
+    </Provider>, document.getElementById('root'));
 
-window.setState(initialState);
-
-serviceWorker.unregister();

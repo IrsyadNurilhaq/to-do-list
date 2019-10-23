@@ -3,6 +3,7 @@ const Schema         = mongoose.Schema;
 const mongooseHidden = require('mongoose-hidden')()
 
 let ListSchema = new Schema({
+    _id: {type: Schema.ObjectId, auto: true},
     creator : {type: Schema.Types.ObjectId, ref: 'User', hide: true},
     content : {type: String, required: true},
     is_done : {type: Boolean, default: false}

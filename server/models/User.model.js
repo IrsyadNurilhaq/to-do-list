@@ -7,6 +7,10 @@ const uniqueValidator = require('mongoose-unique-validator');
 const mongooseHidden = require('mongoose-hidden')();
 
 let UserSchema = new Schema({
+    _id:{
+        type: Schema.Types.ObjectId,
+        auto : true
+    },
     name: { 
         type: String, 
         required: true
@@ -27,10 +31,14 @@ let UserSchema = new Schema({
         hide: true,
         minLength: 6 
     },
+    idList : {
+        type: Array,
+    },
     lists   : [{ 
+        _id: {type: Schema.ObjectId, auto: true},
         type: Schema.Types.ObjectId, 
         ref: 'List',
-        default: [] 
+        default: [], 
     }],
     tokens: [{
         token: {
